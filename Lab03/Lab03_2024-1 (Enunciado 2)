@@ -1,0 +1,42 @@
+#include <iostream>
+
+using namespace std;
+
+#define N 14
+
+int buscarMayorRango(int arr[N], int ini, int fin);
+int buscarCeros(int arr[N], int ini, int fin);
+int buscarMaximo(int arr[N], int ini, int fin);
+
+int main() {
+    //Problema AbreJaime
+    int arr[N] = {0,-1,0,-1,0,1,1,2,2,3,2,2,1,1};
+    int n=N;
+    int openhaimer = buscarMayorRango(arr, 0, n-1);
+    cout<<"Potencia maxima de "<<openhaimer<<" megatones."<<endl;
+    return 0;
+}
+int buscarMayorRango(int arr[N], int ini, int fin) {
+    int posCero = buscarCeros(arr, ini, fin);
+    int maximo = buscarMaximo(arr, ini, fin);
+    cout<<"El resultado será: La radiación empieza a "<<posCero<< " km.";
+    return maximo;
+}
+int buscarCeros(int arr[N], int ini, int fin) {
+    int medio = (ini + fin) / 2;
+    if (ini>fin) return 0;
+    if (arr[medio] > 0) {
+        return buscarCeros(arr, ini, medio-1);
+    } else {
+        return (medio - ini) + 1 + buscarCeros(arr, medio+1, fin);
+    }
+}
+int buscarMaximo(int arr[N], int ini, int fin) {
+    if (ini==fin) return arr[ini];
+    int medio = (ini + fin) / 2;
+    if (arr[medio+1] > arr[medio]) {
+        return buscarMaximo(arr, medio+1, fin);
+    } else {
+        return buscarMaximo(arr, ini, medio);
+    }
+}
