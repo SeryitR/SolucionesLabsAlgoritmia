@@ -1,0 +1,101 @@
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+#define N 10
+
+int buscarMayor (int matrizMinerales[N], int ini, int fin, int &posX);
+int buscarRango(int matrizMinerales[N], int ini, int fin);
+
+int main() {
+    int matrizMinerales [N][N] = {{0, 0, 0, 3, 3, 7, 5, 5, 1, 1},
+                                  {8, 8, 10, 9, 9, 5, 4, 4, 2, 0},
+                                  {3, 5, 8, 9, 7, 6, 4, 2, 0, 0},
+                                  {9, 7, 7, 4, 4, 4, 2, 0, 0, 0},
+                                  {0, 2, 2, 3, 3, 4, 4, 5, 3, 3},
+                                  {0, 0, 0, 0, 0, 0, 2, 3, 4, 5},
+                                  {1, 2, 2, 3, 3, 4, 3, 2, 0, 0},
+                                  {0, 0, 0, 0, 0, 0, 3, 5, 5, 7},
+                                  {6, 5, 5, 2, 2, 1, 0, 0, 0, 0},
+                                  {3, 2, 2, 0, 0, 0, 0, 0, 0, 0}};
+    int n= N, mayor = 0, posX, posY, maxPosy;
+    for (int i = 0; i < N; i++) {
+        int mayorActual = buscarMayor (matrizMinerales[i], 0, n-1, posY);
+        if (mayorActual > mayor) {
+            posX = i;
+            mayor = mayorActual;
+            maxPosy= posY;
+        }
+    }
+    cout<<"El mayor numero de mina es "<<mayor<<" y se ubica en "<<posX+1<<' '<<maxPosy+1<<endl;
+    int matrizRespuesta[N]{}, rango1, rangoMin =0 ;
+    bool primeraEntrada = false;
+    int p;
+    for (int i = 0; i < N; i++) {
+        if (matrizMinerales[i][0] == 0) {
+            rango1 = -1;
+        } else {
+            rango1 = N;
+        }
+        int rango2;
+        rango2 = buscarRango(matrizMinerales[i], 0, n-1);
+        int rangoObt= fabs(rango2-rango1);
+        if (primeraEntrada==false) {
+            p=1;
+            rangoMin = rangoObt;
+            primeraEntrada = true;
+            matrizRespuesta[i] = p;
+        } else {
+            if (rangoObt<rangoMin) {
+                p++;
+                rangoMin = rangoObt;
+                matrizRespuesta[i] = p;
+            } else if (rangoObt==rangoMin) {
+                matrizRespuesta[i] = p;
+            }
+        }
+    }
+    cout<<"Las muestras con mayor cantidad de niveles con minerales son: ";
+    bool Entro = true;
+    for (int i = 0; i < N; i++) {
+
+        if (matrizRespuesta[i]==p) {
+            if (!Entro) {
+                cout<<',';
+            }
+            cout<<i+1<<' ';
+            Entro = false;
+        }
+    }
+    cout<<"con "<<N-rangoMin<<" estratos de minerales"<<endl;
+    return 0;
+}
+int buscarMayor (int matrizMinerales[N], int ini, int fin, int &posX) {
+    if (ini == fin) {
+        posX = ini;
+        return matrizMinerales[ini];
+    }
+    int medio = (ini + fin) / 2;
+    if (matrizMinerales[medio+1]>=matrizMinerales[medio]) {
+        return buscarMayor(matrizMinerales, medio+1, fin, posX);
+    } else {
+        return  buscarMayor(matrizMinerales, ini, medio, posX);
+    }
+}
+int buscarRango(int matrizMinerales[N], int ini, int fin) {
+    if (fin == ini) return fin;
+    int medio = (ini + fin) / 2;
+    if ((matrizMinerales[medio]==0 and matrizMinerales[medio+1]==0 and matrizMinerales[medio-1]!=0) or
+        (matrizMinerales[medio]==0 and matrizMinerales[medio+1]!=0 and matrizMinerales[medio-1]==0))
+        {
+            return medio;
+        }
+    if ((matrizMinerales[ini] == 0 and matrizMinerales[medio] == 0)
+        or (matrizMinerales[fin] == 0 and (matrizMinerales[medio]!=0))) { // se busca a la derecha
+        return buscarRango(matrizMinerales, medio+1, fin);
+    } else if ((matrizMinerales[medio] == 0 and matrizMinerales[fin] == 0)
+        or (matrizMinerales[ini] == 0 and (matrizMinerales[medio]!=0))) { // se busca a la izquierda
+        return buscarRango(matrizMinerales, ini, medio-1);
+        }
+} 
