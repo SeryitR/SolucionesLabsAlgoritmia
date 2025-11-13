@@ -1,0 +1,50 @@
+#include <iostream>
+#define N 11
+#define M 8
+
+using namespace std;
+
+char buscarExtra(char arr[N], int ini, int fin);
+
+int main() {
+    char arr[M][N] = {{'O', '0', 'C', 'C', 'A', 'A', 'E', 'E', 'R', 'R', 'R'},
+                     {'C', 'C', 'A', 'A', 'R', 'R', 'E', 'E', 'B', 'B', ' '},
+                     {'R', 'R', 'E', 'E', 'C', 'C', 'F', 'F', 'A', 'A', ' '},
+                     {'E', 'E', 'F', 'F', 'A', 'A', 'A', 'B', 'B', 'R', 'R'},
+                     {'C', 'C', 'C', 'A', 'A', 'R', 'R', 'O', 'O', 'E', 'E'},
+                     {'O', 'O', 'C', 'C', 'A', 'A', 'R', 'R', 'E', 'E', ' '},
+                     {'A', 'A', 'F', 'F', 'R', 'R', 'E', 'E', 'O', 'O', ' '},
+                     {'E', 'E', 'A', 'A', 'O', 'O', 'B', 'B', 'F', 'F', ' '}};
+    int n=N;//11
+    int m=M;//8
+    for (int i=0; i < M; i++) {
+        char solo = buscarExtra( arr[i], 0, n-1);
+        if (solo!=' ') {
+            cout<<"La fila "<<i+1<<" tiene un "<<solo<<" adicional "<<endl;
+        }
+    }
+    return 0;
+}
+char buscarExtra(char arr[N], int ini, int fin) {
+    if (fin<=ini) {
+        return ' ';
+    }
+    int medio = (ini + fin) / 2;
+    if (medio % 2 != 0) {
+        if (arr[medio]==arr[medio+1] and arr[medio]==arr[medio-1]) {
+            return arr[medio];
+        } else {
+            if (arr[medio]==arr[medio+1] and arr[medio]!=arr[medio-1]) {
+                return buscarExtra(arr, ini, medio-1);
+            } else {
+                return buscarExtra(arr, medio+1, fin);
+            }
+        }
+    } else {
+        if (arr[medio]!=arr[medio-1]) {
+            return buscarExtra(arr, medio, fin);
+        } else {
+            return buscarExtra(arr, ini, medio);
+        }
+    }
+}
