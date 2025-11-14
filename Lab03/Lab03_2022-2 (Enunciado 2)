@@ -1,0 +1,67 @@
+#include <iostream>
+
+using namespace std;
+
+int obtenerMina(int *arr, int ini, int fin, int &columna);
+int buscarMayorSuma (int *arr, int ini, int fin, int columnaMayor, int n);
+
+int main() {
+    int n, m;
+    cout<<"Ingrese las dimenciones de la matriz";
+    cin >> n >> m;
+    cout<<"Ingrese los valores dentro de la matriz";
+    int valor, arr[m][n], arr2[m][n];
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            cin>>valor;
+            arr[i][j] = valor;
+        }
+    }
+    int MinaMayor=0, columnaMayor, columna;
+    for (int i = 0; i < m; i++) {
+        int MinaObtenida = obtenerMina(arr[i], 0, n-1, columna);
+        if (MinaObtenida > MinaMayor) {
+            MinaMayor = MinaObtenida;
+            columnaMayor = columna;
+        }
+    }
+    //Ahora una vez obtenido usamos el valor dado
+    int masMinas = buscarMayorSuma (&arr[0][0], 0, m-1, columnaMayor, n);
+    //ojo aqui basicamente converti matriz de 2D a 1D
+    cout<<"Para este juego de datos la potencia mas alta de bomba es "<<MinaMayor<<" y la columna donde se ubica es  "
+    <<columnaMayor<<".La fila con el mayor impacto es la "<<masMinas<<endl;
+    return 0;
+}
+int obtenerMina(int *arr, int ini, int fin, int &columna) {
+    if (ini==fin) {
+        columna = ini;
+        return arr[ini];
+    }
+    int medio = (ini + fin) / 2;
+    if (arr[medio]>arr[medio+1] and arr[medio]>arr[medio-1]) {
+        return arr[medio];
+    }
+    if (arr[medio+1]>arr[medio]) {
+        return obtenerMina(arr, medio+1, fin, columna);
+    } else {
+        return obtenerMina(arr, ini, medio-1, columna);
+    }
+}
+int buscarMayorSuma(int *arr, int ini, int fin, int columnaMayor, int n) {
+    if (ini==fin)return ini;
+    int medio = (ini + fin) / 2;
+    int valor_medio = arr[(medio*n) + columnaMayor];
+    int valorAnterior = arr[((medio+1)*n) + columnaMayor];
+    int valorSiguiente = arr[((medio-1)*n) + columnaMayor];
+    if (valor_medio<valorAnterior) {
+        return buscarMayorSuma(arr, medio+1, fin, columnaMayor, n);
+    }
+    if (valor_medio<valorSiguiente) {
+        return buscarMayorSuma(arr, ini, medio-1, columnaMayor, n);
+    }
+    return medio;
+}
+
+
+//Si quieres ingresar los valores de matrices te dejo uno : 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 2 2 0 0 0 0 1 2 3 0 0 0 0 1 2 2 0 0 0 0 1 1 1 0 0 0 0 0 0 0
+//Aca te dejo el otro: 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 1 2 1 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0
