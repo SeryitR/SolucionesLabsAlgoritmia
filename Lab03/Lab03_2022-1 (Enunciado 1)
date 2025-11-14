@@ -1,0 +1,67 @@
+#include <iostream>
+
+using namespace std;
+#define N 8
+#define M 10
+
+int cuentaDias (int arrPosbilidades1[M], int ini, int fin);
+int cuentaCentros (int arrPosibilidades1[M], int ini, int medio, int fin);
+int main() {
+    int arrPosibilidades1 [N] = {10, 20, 15, 10, 12, 10, 13, 18};
+    int arrPosibilidades2 [M] = {7, 2, 9, 10, 16, 10, 13, 8, 2, 10};
+    int n=N;
+    int m=M;
+    int Rango = cuentaDias (arrPosibilidades1, 0, n-1);
+    cout<<Rango<<endl;
+    return 0;
+}
+
+int cuentaDias(int arrPosibilidades1[M], int ini, int fin) {
+    if (ini == fin) {
+        return 1;
+    }
+    int medio = (ini + fin) / 2;
+    int cuentaIzq = cuentaDias(arrPosibilidades1, ini, medio);
+    int cuentaDer = cuentaDias(arrPosibilidades1, medio+1, fin);
+    int cuentaCentro = cuentaCentros (arrPosibilidades1, ini, medio, fin);
+    if (cuentaIzq>=cuentaDer and cuentaIzq>=cuentaCentro) {
+        return cuentaIzq;
+    } else {
+        if (cuentaDer>=cuentaIzq and cuentaDer>=cuentaCentro) {
+            return cuentaDer;
+        } else {
+            return cuentaCentro;
+        }
+    }
+}
+int cuentaCentros (int arrPosibilidades1[M], int ini, int medio, int fin) {
+    int cuentaDerecha = 1;
+    for (int i = medio+1; i <= fin; i++) {
+        if (arrPosibilidades1[i]<arrPosibilidades1[i+1]) {
+            cuentaDerecha++;
+        } else {
+            break;
+        }
+    }
+    int cuentaIzquierda = 1;
+    for (int i = medio; i >= ini; i--) {
+        if (arrPosibilidades1[i]>arrPosibilidades1[i-1]) {
+            cuentaIzquierda++;
+        } else {
+            break;
+        }
+    }
+    int cuentaCentro=1;
+    if (arrPosibilidades1[medio]<arrPosibilidades1[medio+1]) {
+        cuentaCentro = cuentaIzquierda + cuentaDerecha;
+    }
+    if (cuentaIzquierda>=cuentaDerecha and cuentaIzquierda>=cuentaCentro) {
+        return cuentaIzquierda;
+    } else {
+        if (cuentaDerecha>=cuentaCentro and cuentaDerecha>=cuentaIzquierda) {
+            return cuentaDerecha;
+        } else {
+            return cuentaCentro;
+        }
+    }
+}
