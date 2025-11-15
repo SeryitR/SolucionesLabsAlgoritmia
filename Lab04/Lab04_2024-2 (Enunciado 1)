@@ -1,0 +1,90 @@
+#include <iostream>
+
+#include "Bibliotecas/ArbolBinario.h"
+#include "Bibliotecas/funcionesArbolBinario.h"
+
+using namespace std;
+
+void imprimirRecursiva(struct NodoArbolBinario *, char palabra[], int nivel);
+
+int main() {
+    ArbolBinario arbol0, arbol1, arbol2, arbol3, arbol4, arbol5, arbol6, arbol7, arbol8, arbol9, arbol10, arbol11, arbol12,
+    arbol13, arbol14, arbol15, arbol16, arbol17, arbol18, arbol19, arbol5_AUX;
+    ArbolBinario arbolVacio, arbol;
+    ArbolBinario hijoDerecho, hijoIzquierdo;
+    ElementoArbolBinario elemento;
+    construir (arbolVacio);
+    construir (arbol);
+    elemento.numero='N';
+    elemento.fini=1;
+    plantarArbolBinario(arbol0, arbolVacio, elemento, arbolVacio);
+    elemento.numero='O';
+    elemento.fini=1;
+    plantarArbolBinario(arbol1, arbolVacio, elemento, arbolVacio);
+    elemento.numero = 'A';
+    elemento.fini=1;
+    plantarArbolBinario(arbol2, arbolVacio, elemento, arbolVacio);
+    elemento.numero = 'S';
+    elemento.fini=1;
+    plantarArbolBinario(arbol3, arbolVacio, elemento, arbolVacio);
+    elemento.numero = 'A';
+    elemento.fini=1;
+    plantarArbolBinario(arbol4, arbolVacio, elemento, arbolVacio);
+    elemento.numero = 'S';
+    elemento.fini=1;
+    plantarArbolBinario(arbol5_AUX, arbolVacio, elemento, arbolVacio);
+    //A partir de aca plantamos los siguientes
+    elemento.numero = 'E';
+    elemento.fini=0;
+    plantarArbolBinario(arbol5, arbol0, elemento, arbolVacio);
+    elemento.numero = 'A';
+    elemento.fini=0;
+    plantarArbolBinario(arbol6, arbol1, elemento, arbolVacio);
+    elemento.numero = 'B';
+    elemento.fini=0;
+    plantarArbolBinario(arbol7, arbol6, elemento, arbolVacio);
+    elemento.numero = 'L';
+    elemento.fini=0;
+    plantarArbolBinario(arbol8, arbol7, elemento, arbolVacio);
+    elemento.numero = 'I';
+    elemento.fini=0;
+    plantarArbolBinario(hijoIzquierdo, arbol5, elemento, arbol8);
+    elemento.numero = 'O';
+    elemento.fini=0;
+    plantarArbolBinario(arbol9, arbolVacio, elemento,arbol3);
+    elemento.numero = 'N';
+    elemento.fini=0;
+    plantarArbolBinario(arbol10, arbol2, elemento,arbol9);
+    elemento.numero = 'E';
+    elemento.fini=0;
+    plantarArbolBinario(arbol11, arbol10, elemento, arbolVacio);
+    elemento.numero = 'O';
+    elemento.fini=0;
+    plantarArbolBinario(arbol12, arbolVacio, elemento, arbol5_AUX);
+    elemento.numero = 'R';
+    elemento.fini=0;
+    plantarArbolBinario(arbol13, arbol4, elemento, arbol12);
+    elemento.numero = 'R';
+    elemento.fini=0;
+    plantarArbolBinario(arbol14, arbolVacio, elemento, arbol13);
+    elemento.numero = 'U';
+    elemento.fini=0;
+    plantarArbolBinario(hijoDerecho, arbol11, elemento, arbol14);
+    elemento.numero = 'B';
+    elemento.fini=0;
+    plantarArbolBinario(arbol, hijoIzquierdo, elemento, hijoDerecho);
+    int nivel;
+    char palabra[40];
+    imprimirRecursiva(arbol.raiz, palabra, 0);
+    return 0;
+}
+ void imprimirRecursiva(struct NodoArbolBinario *nodo, char palabra[], int nivel) {
+     if (nodo == nullptr) return;
+    palabra[nivel] = (char)nodo->elemento.numero;
+    palabra[nivel+1] = '\0';
+    if (nodo->elemento.fini == 1) {
+        cout << palabra << endl;
+    }
+    imprimirRecursiva(nodo->izquierda, palabra, nivel+1);
+    imprimirRecursiva(nodo->derecha, palabra, nivel+1);
+ }
