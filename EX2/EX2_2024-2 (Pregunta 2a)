@@ -1,8 +1,7 @@
 #include <iostream>
-#include <cmath>
 #include "Bibliotecas/ArbolBinario.h"
 #include "Bibliotecas/funcionesArbolBinario.h"
-int convertirBinario(int num, int &cantDig);
+int *convertirBinario(int num, int &cantDig);
 
 using namespace std;
 
@@ -18,11 +17,11 @@ int main() {
     NodoArbolBinario *nodo;
     for (int i = 0; i < n; i++) {
         int cantDig = 0;
-        int numBinario = convertirBinario(arringreso[i], cantDig);
+        int *numBinario= convertirBinario(arringreso[i], cantDig);
         int copiaNumbinario = arringreso[i];
         nodo = arbol1.raiz;
         while (cantDig>0) {
-            int dig = numBinario/(int)pow(10,cantDig-1);
+            int dig = numBinario[cantDig-1];
             ArbolBinario arbol;
             construir(arbol);
             ElementoArbolBinario elemento2;
@@ -41,26 +40,28 @@ int main() {
                 }
                 nodo=nodo->derecha;
             }
-            numBinario = numBinario - (int)pow(10,cantDig-1);
             cantDig--;
         }
         nodo->elemento.numero = copiaNumbinario;
     }
     NodoArbolBinario *nodo1;
-    nodo1 = arbol1.raiz->izquierda->izquierda->izquierda->derecha; // ESTO ES SOLO PARA PROBAR EL CODIGO, PUEDES USAR LOS NODOS CONOCIDOS PARA VERIFICAR QUE CUMPLA
+    nodo1 = arbol1.raiz->izquierda->derecha->izquierda;
     imprimirNodo(nodo1);
     return 0;
 }
 
-int convertirBinario(int num, int &cantDig) {
+int *convertirBinario(int num, int &cantDig) {
     int j=0;
-    int digito, bin=0;
+    int digito;
+    int *bin = new int [10];
+    if (num==0) bin[0] = 0;
     while (num>0) {
         digito = num%2;
-        bin = bin + digito*pow(10,j);
+        bin [j] = digito;
         num = num/2;
         j++;
     }
     cantDig = j;
     return bin;
 }
+
