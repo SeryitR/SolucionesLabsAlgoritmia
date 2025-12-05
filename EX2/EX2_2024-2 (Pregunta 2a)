@@ -67,7 +67,7 @@ int main() {
     if (existia) {
         cout<<"El numero ya existia en el arbol previo"<<endl;
     } else {
-        cout<<"El arbol no existia"<<endl;
+        cout<<"El arbol no existia"<<endl; //aun a pesar de los cambios no da, revisar porfavor
     }
     return 0;
 }
