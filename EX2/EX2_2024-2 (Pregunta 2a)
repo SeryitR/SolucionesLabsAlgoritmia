@@ -47,7 +47,7 @@ int main() {
         nodo->elemento.numero = copiaNumbinario;
     }
     NodoArbolBinario *nodo1;
-    nodo1 = arbol1.raiz->izquierda->izquierda->izquierda->derecha;
+    nodo1 = arbol1.raiz->izquierda->izquierda->izquierda->derecha; // ESTO ES SOLO PARA PROBAR EL CODIGO, PUEDES USAR LOS NODOS CONOCIDOS PARA VERIFICAR QUE CUMPLA
     imprimirNodo(nodo1);
     return 0;
 }
