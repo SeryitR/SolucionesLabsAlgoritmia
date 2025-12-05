@@ -1,0 +1,66 @@
+#include <iostream>
+#include <cmath>
+#include "Bibliotecas/ArbolBinario.h"
+#include "Bibliotecas/funcionesArbolBinario.h"
+int convertirBinario(int num, int &cantDig);
+
+using namespace std;
+
+int main() {
+    int n=6;
+    int arringreso[n]= {0,1,3,5,9,14};
+    ArbolBinario arbol1, arbolVacio;
+    construir(arbol1);
+    construir(arbolVacio);
+    ElementoArbolBinario elemento1;
+    elemento1.binario=2;
+    plantarArbolBinario(arbol1, arbolVacio, elemento1, arbolVacio);;
+    NodoArbolBinario *nodo;
+    for (int i = 0; i < n; i++) {
+        int cantDig = 0;
+        int numBinario = convertirBinario(arringreso[i], cantDig);
+        int copiaNumbinario = arringreso[i];
+        nodo = arbol1.raiz;
+        while (cantDig>0) {
+            int dig = numBinario/(int)pow(10,cantDig-1);
+            ArbolBinario arbol;
+            construir(arbol);
+            ElementoArbolBinario elemento2;
+            elemento2.binario = dig;
+            elemento2.numero=0;
+            if (dig==1) {
+                if (nodo->izquierda==nullptr) {
+                    plantarArbolBinario(arbol, arbolVacio, elemento2, arbolVacio);
+                    nodo->izquierda=arbol.raiz;
+                }
+                nodo=nodo->izquierda;
+            } else {
+                if (nodo->derecha==nullptr) {
+                    plantarArbolBinario(arbol, arbolVacio, elemento2, arbolVacio);
+                    nodo->derecha=arbol.raiz;
+                }
+                nodo=nodo->derecha;
+            }
+            numBinario = numBinario - (int)pow(10,cantDig-1);
+            cantDig--;
+        }
+        nodo->elemento.numero = copiaNumbinario;
+    }
+    NodoArbolBinario *nodo1;
+    nodo1 = arbol1.raiz->izquierda->izquierda->izquierda->derecha;
+    imprimirNodo(nodo1);
+    return 0;
+}
+
+int convertirBinario(int num, int &cantDig) {
+    int j=0;
+    int digito, bin=0;
+    while (num>0) {
+        digito = num%2;
+        bin = bin + digito*pow(10,j);
+        num = num/2;
+        j++;
+    }
+    cantDig = j;
+    return bin;
+}
