@@ -15,18 +15,37 @@ int main() {
     elemento1.binario=2;
     plantarArbolBinario(arbol1, arbolVacio, elemento1, arbolVacio);;
     NodoArbolBinario *nodo;
-    for (int i = 0; i < n; i++) {
+    int cantDigIngreso, ingreso;
+    cout<<"Ingrese el numero que desea verificar si existe en el arbol predeterminado: ";
+    cin>>ingreso;
+    int *numVerificarBinario = convertirBinario(ingreso, cantDigIngreso);
+    bool existia;
+    for (int i = 0; i <= n; i++) {
         int cantDig = 0;
-        int *numBinario= convertirBinario(arringreso[i], cantDig);
-        int copiaNumbinario = arringreso[i];
+        int *numBinario;
+        int copiaNumBinario;
+        if (i==n) {
+            numBinario=numVerificarBinario;
+            copiaNumBinario = ingreso;
+        } else {
+            numBinario= convertirBinario(arringreso[i], cantDig);
+            copiaNumBinario = arringreso[i];
+        }
         nodo = arbol1.raiz;
+        existia = false;
         while (cantDig>0) {
             int dig = numBinario[cantDig-1];
             ArbolBinario arbol;
             construir(arbol);
             ElementoArbolBinario elemento2;
             elemento2.binario = dig;
-            elemento2.numero=0;
+            elemento2.numero=-1;
+            if (nodo->izquierda!=nullptr and nodo->izquierda->elemento.numero==arringreso[i]) {
+                existia = true;
+            }
+            if (nodo->derecha!=nullptr and nodo->derecha->elemento.numero==arringreso[i]) {
+                existia = true;
+            }
             if (dig==1) {
                 if (nodo->izquierda==nullptr) {
                     plantarArbolBinario(arbol, arbolVacio, elemento2, arbolVacio);
@@ -42,11 +61,14 @@ int main() {
             }
             cantDig--;
         }
-        nodo->elemento.numero = copiaNumbinario;
+
+        nodo->elemento.numero = copiaNumBinario;
     }
-    NodoArbolBinario *nodo1;
-    nodo1 = arbol1.raiz->izquierda->derecha->izquierda;
-    imprimirNodo(nodo1);
+    if (existia) {
+        cout<<"El numero ya existia en el arbol previo"<<endl;
+    } else {
+        cout<<"El arbol no existia"<<endl;
+    }
     return 0;
 }
 
@@ -64,4 +86,3 @@ int *convertirBinario(int num, int &cantDig) {
     cantDig = j;
     return bin;
 }
-
