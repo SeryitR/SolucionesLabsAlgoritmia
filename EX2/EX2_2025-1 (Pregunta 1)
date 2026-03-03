@@ -1,0 +1,35 @@
+#include <algorithm>
+#include <iostream>
+using namespace std;
+int merge(int *arr, int ini, int fin, int T);
+int main() {
+    int densidad, datoIngresado, T;
+    cout<<"Ingrese la densidad: ";
+    cin>>densidad;
+    int arr[densidad];
+    for (int i = 0; i < densidad; i++) {
+        cin>>datoIngresado;
+        arr[i]=datoIngresado;
+    }
+    cout<<"Ingrese T: ";
+    cin>>T;
+
+    int carie = merge(arr, 0, densidad-1, T);
+    if (arr[carie] < T) {
+        cout<<"Primera zona con caries clÃ­nica detectada en la posiciÃ³n "<<carie<<endl;
+        cout<<"Densidad registrada: "<<arr[carie];
+    } else {
+        cout<<"No se detecta caries clÃ­nica.";
+    }
+    return 0;
+}
+int merge(int *arr, int ini, int fin, int T) {
+    if (ini>=fin) return ini;
+    int medio = (ini+fin)/2;
+    if (arr[medio] > T) {
+        return merge(arr, medio+1, fin, T);
+    }
+    if (arr[medio] < T) {
+        return merge(arr, ini, medio, T);
+    }
+} //no se puede detallar mucho, simplemente divido y busco el primero menor mas cercano
